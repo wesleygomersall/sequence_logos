@@ -7,6 +7,9 @@ import pandas as pd
 from seqlogo import seq_logo
 
 test_sequences = ["AAAAA", "CCCCC", "GGGGG", "TTTTT", "TTTTT", "CCGGC", "NNNNN"]
+amino_acids = 'ACDEFGHIKLMNPQRSTVWY'
+nuc_acids = 'ACGTU'
+nuc_acids_n = 'ACGTUN'
 
 def generate_sequences(n_sequences: int = 100, 
                        length: int = 10, 
@@ -46,7 +49,7 @@ class TestProbMatrix(unittest.TestCase):
         arr = [[0.6, 0.2, 0.2], 
                [0.2, 0.4, 0.4], 
                [0.8, 0.2, 0.0]]
-        ideal_mat = pd.DataFrame(arr, index=range(3), columns=['A', 'B', 'C'])
+        ideal_mat = pd.DataFrame(arr, index=range(1,4), columns=['A', 'B', 'C'])
 
         mylist = ["AAA","ABB","ABA","BCA","CCA"]
         calced_mat = seq_logo.seq_prob_matrix(mylist)
@@ -60,7 +63,7 @@ class TestProbMatrix(unittest.TestCase):
         r_string = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
         sequences = generate_sequences(1000, 10, r_string)
         mat = seq_logo.seq_prob_matrix(sequences)
-        assert all([sum(mat.iloc[r]) - 1 < error for r in mat.index])
+        assert all([sum(mat.loc[r]) - 1 < error for r in mat.index])
 
 if __name__ == "__main__":
     unittest.main()

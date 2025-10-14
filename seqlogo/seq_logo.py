@@ -33,27 +33,20 @@ def seq_prob_matrix(sequences: list[str]):
         characters.update(list(sequence))
     
     column_names = sorted(list(characters))
-    row_indices = range(n_positions)
+    row_indices = range(1, n_positions + 1)
     char_heights = pd.DataFrame(0.0, index= row_indices, columns= column_names)
     for position in range(n_positions):
         for sequence in sequences:
             character = sequence[position]
-            char_heights.loc[position, character] += 1 / len(sequences)
+            char_heights.loc[position + 1, character] += 1 / len(sequences)
 
     return char_heights
-
-def make_plot_seq_prob(sequences, output_path):
-    probs = seq_prob_matrix(sequences)
-    fig, ax = plt.subplots(1, 1, figsize=[4,2])
-    logo = logomaker.Logo(probs)
-    logo.draw()
-    plt.savefig(output_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("--input", "-i", type=str, help="Input file path")
-    parser.add_argument("--output", "-o", type=str, help="Output file path")
     args = parser.parse_args()
 
     sequence_list = read_sequence_file(args.input)
-    make_plot_seq_prob(sequence_list, args.output)
+    prob_matrix = seq_prob_matrix(sequence_list)
+    print(prob_matrix)
