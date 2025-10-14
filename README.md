@@ -1,6 +1,6 @@
 # Sequence Logos
 
-![](output/sample_seq_logo_plot.pdf)
+![[output/sample_seq_logo_plot.png]]
 
 Dependencies: 
 - pandas
